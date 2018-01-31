@@ -1,4 +1,4 @@
-package paquete;
+package vista;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
