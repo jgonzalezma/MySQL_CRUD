@@ -32,4 +32,7 @@ public class Usuario {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
+	public void mostrarUsuario(Usuario usuario) {
+		System.out.println("ID: " + usuario.getId() + " Nombre: " + usuario.getNombre() + " Apellido " + usuario.getApellido() + " Edad: " + usuario.getEdad());
+	}
 }
