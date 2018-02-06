@@ -25,4 +25,7 @@ public class Libro {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
+	public void mostrarLibros(){
+		System.out.println("\nID: " + getId() + "\nTitulo: " + getTitulo() + "\nAutor: " + getAutor());
+	}
 }

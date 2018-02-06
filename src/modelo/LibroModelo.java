@@ -45,7 +45,7 @@ public class LibroModelo extends Conector {
 			}	
 			return libro;
 		}
-		public Libro select(String titulo){
+		public Libro selectPorTitulo(String titulo){
 			//crear libro
 			Libro libro = new Libro();
 			//ejecutar consulta
