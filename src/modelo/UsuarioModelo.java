@@ -150,6 +150,6 @@ public class UsuarioModelo extends Conector{
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			}return dni;
 		}
 }
