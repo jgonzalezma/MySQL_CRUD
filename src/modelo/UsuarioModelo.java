@@ -25,8 +25,8 @@ public class UsuarioModelo extends Conector{
 					us.setApellido(rs.getString("apellido"));
 					us.setEdad(rs.getInt("edad"));
 					us.setDni(rs.getString("dni"));
-					
-					us.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+					java.util.Date fechaNacimiento = rs.getDate("fechaNacimiento");
+					us.setFechaNacimiento(fechaNacimiento);
 					
 					//añadir usuario a la lista
 					usuarios.add(us);
@@ -51,7 +51,8 @@ public class UsuarioModelo extends Conector{
 				usuario.setApellido(rs.getString("apellido"));
 				usuario.setEdad(rs.getInt("edad"));
 				usuario.setDni(rs.getString("dni"));
-				usuario.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+				java.util.Date fechaNacimiento = rs.getDate("fechaNacimiento");
+				usuario.setFechaNacimiento(fechaNacimiento);
 				
 			} catch (Exception e) {
 
@@ -134,22 +135,23 @@ public class UsuarioModelo extends Conector{
 			return usuarios;
 		}
 		public Usuario selectPorDNI(String dni) {
+			Usuario usuario = new Usuario();
 			try {
-				PreparedStatement pst = super.conexion.prepareStatement("select * from usuarios where dni = ?");
+				 PreparedStatement pst = super.conexion.prepareStatement("select * from usuarios where dni = ?");
 				pst.setString(1, dni);
 				ResultSet rs = pst.executeQuery();
-				
-				if(rs.next()){
-					Usuario usuario = new Usuario();
+					if(rs.next()){
 					usuario.setId(rs.getInt("id"));
 					usuario.setNombre(rs.getString("nombre"));
 					usuario.setApellido(rs.getString("apellido"));
 					usuario.setDni(rs.getString("dni"));
 					usuario.setEdad(rs.getInt("edad"));
-					usuario.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-				}
+					java.util.Date fechaNacimiento = rs.getDate("fechaNacimiento");
+					usuario.setFechaNacimiento(fechaNacimiento);
+					return usuario;
+					}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}return dni;
+			}return usuario;
 		}
 }

@@ -14,7 +14,7 @@ public class LibroModelo extends Conector {
 			//ejecutar la consulta
 			try {
 				Statement st = super.conexion.createStatement();
-				ResultSet rs = st.executeQuery("SELECT * FROM libros");
+				ResultSet rs = st.executeQuery("SELECT * FROM libro");
 				//recorrer el resultset y rellenar el arraylist
 				while(rs.next()){
 					Libro lb = new Libro();
@@ -36,8 +36,8 @@ public class LibroModelo extends Conector {
 			//ejecutar consulta
 			try {
 				Statement st = super.conexion.createStatement();
-				ResultSet rs = st.executeQuery("SELECT * FROM libros WHERE id = " + id);
-				libro.setId(id);
+				ResultSet rs = st.executeQuery("SELECT * FROM libro WHERE id = " + id);
+				libro.setId(rs.getInt("id"));
 				libro.setTitulo(rs.getString("titulo"));
 				libro.setAutor(rs.getString("autor"));
 			} catch (SQLException e) {
@@ -50,11 +50,14 @@ public class LibroModelo extends Conector {
 			Libro libro = new Libro();
 			//ejecutar consulta
 			try {
-				PreparedStatement pst = super.conexion.prepareStatement("SELECT * FROM libros WHERE titulo = " + titulo);
-				pst.setInt(1, libro.getId());
-				pst.setString(2, libro.getTitulo());
-				pst.setString(3, libro.getAutor());
-				pst.execute();
+				PreparedStatement pst = super.conexion.prepareStatement("SELECT * FROM libro WHERE titulo=?");
+				pst.setString(1, titulo);
+				ResultSet rs = pst.executeQuery();
+				if(rs.next()){
+					libro.setId(rs.getInt("id"));
+					libro.setTitulo(rs.getString("titulo"));
+					libro.setAutor(rs.getString("autor"));
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -63,7 +66,7 @@ public class LibroModelo extends Conector {
 		}
 		public void update(Libro libro){
 			try {
-				PreparedStatement pst = super.conexion.prepareStatement("UPDATE libros WHERE id=?, titulo=?, autor=?");
+				PreparedStatement pst = super.conexion.prepareStatement("UPDATE libro WHERE id=?, titulo=?, autor=?");
 				pst.setString(1, libro.getTitulo());
 				pst.setString(2, libro.getAutor());
 				pst.setInt(3, libro.getId());
@@ -74,7 +77,7 @@ public class LibroModelo extends Conector {
 		}
 		public void insert(Libro libro){
 			try {
-				PreparedStatement pst = super.conexion.prepareStatement("INSERT INTO libros (id, titulo, autor) values(?,?,?)" );
+				PreparedStatement pst = super.conexion.prepareStatement("INSERT INTO libro (id, titulo, autor) values(?,?,?)" );
 				pst.setString(1, libro.getTitulo());
 				pst.setString(2, libro.getAutor());
 				pst.setInt(3, libro.getId());
@@ -86,7 +89,7 @@ public class LibroModelo extends Conector {
 		public void delete(int id){
 			try {
 				Statement st = super.conexion.createStatement();
-				ResultSet rs = st.executeQuery("DELETE * FROM libros WHERE ID =" + id);
+				ResultSet rs = st.executeQuery("DELETE * FROM libro WHERE ID =" + id);
 				rs.close();
 			} catch (SQLException e) {
 				

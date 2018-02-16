@@ -11,6 +11,18 @@ public class Usuario {
 	private String dni;
 	private Date fechaNacimiento;
 	
+	public Usuario(){
+		
+	}
+	
+	public Usuario(int id, String nombre, String apellido, int edad, String dni, java.sql.Date fechaNacimiento) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.edad = edad;
+		this.dni = dni;
+		this.fechaNacimiento = fechaNacimiento;
+	}
 	public String getDni() {
 		return dni;
 	}

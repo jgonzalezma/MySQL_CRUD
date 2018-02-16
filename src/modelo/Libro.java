@@ -6,6 +6,15 @@ public class Libro {
 	private String titulo;
 	private String autor;
 	
+	public Libro(){
+		
+	}
+	
+	public Libro(int id, String titulo, String autor) {
+		this.id = id;
+		this.titulo = titulo;
+		this.autor = autor;
+	}
 	//getters y setters
 	public int getId() {
 		return id;

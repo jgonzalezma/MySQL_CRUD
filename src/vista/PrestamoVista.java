@@ -1,5 +1,7 @@
 package vista;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import modelo.Libro;
@@ -9,10 +11,11 @@ import modelo.PrestamoModelo;
 import modelo.Usuario;
 import modelo.UsuarioModelo;
 
-public class PrestamoVista {
+public class PrestamoVista extends Usuario {
 	static final int TOMAR_PRESTADO = 1;
 	static final int ENTREGAR = 2;
 	static final int SALIR = 0;
+
 	
 	public void menuPrestamo(){
 		int opcion;
@@ -29,7 +32,7 @@ public class PrestamoVista {
 				realizarPrestamo(scan);
 				break;
 			case ENTREGAR:
-				
+				realizarEntrega(scan);
 				break;
 			case SALIR:
 				System.out.println("Saliendo...");
@@ -39,6 +42,30 @@ public class PrestamoVista {
 				break;
 			}
 		} while (opcion != SALIR);
+	}
+
+	private void realizarEntrega(Scanner scan) {
+		//pedir dni, titulo
+		System.out.println("Introduce el DNI del usuario");
+		String dni = scan.nextLine();
+		//conseguir usuario
+		UsuarioModelo usuarioModelo = new UsuarioModelo();
+		Usuario usuario = usuarioModelo.selectPorDNI(dni);
+		//pedir el titulo
+		System.out.println("Introduce el titulo del libro");
+		String titulo = scan.nextLine();
+		//conseguir libro
+		LibroModelo libroModelo = new LibroModelo();
+		Libro libro = libroModelo.selectPorTitulo(titulo);
+		//conseguir el prestamo de la BBDD
+		PrestamoModelo prestamoModelo = new PrestamoModelo();
+		Prestamo prestamo = prestamoModelo.prestamoNoFinalizado(libro, usuario);
+		//cambiar el objeto prestamo a entregado
+		prestamo.setEntregado(true);
+		//hacer update de la BBDD
+		prestamoModelo.update(prestamo);
+		
+		System.out.println("El libro " + libro.getTitulo() + " ha sido entregado");
 	}
 
 	private void realizarPrestamo(Scanner scan) {
@@ -55,18 +82,25 @@ public class PrestamoVista {
 			
 			//crear el objeto prestamo
 			Prestamo prestamo = new Prestamo();
-			prestamo.getId();
-			prestamo.getIdLibro();
-			prestamo.getIdUsuario();
-			prestamo.getFechaPrestamo();
-			prestamo.getFechaLimite();
+			prestamo.setIdLibro(libro.getId());
+			prestamo.setIdUsuario(usuario.getId());
+			
+			Date fechaPrestamo = new Date();
+			
+			Calendar calendario = Calendar.getInstance();
+			calendario.setTime(fechaPrestamo);
+			calendario.add(Calendar.DATE, 21);
+			fechaPrestamo = calendario.getTime();
+			
+			prestamo.setEntregado(false);
 			//crear el objeto modeloprestamo
 			PrestamoModelo pModelo = new PrestamoModelo();
 			//insertar prestamo utilizando modeloprestamo
-			pModelo.insertar(prestamo); 
+			pModelo.insertar(prestamo);
+			System.out.println("Prestamo realizado");
 
 		}else{//el libro no existe
-			
+			System.out.println("El libro introducido no existe");
 		}
 		
 	}
