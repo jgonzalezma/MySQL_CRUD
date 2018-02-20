@@ -1,10 +1,13 @@
 package modelo;
 
+import java.util.ArrayList;
+
 public class Libro {
 	//atributos
 	private int id;
 	private String titulo;
 	private String autor;
+	private ArrayList<Prestamo> prestamos;
 	
 	public Libro(){
 		

@@ -82,8 +82,10 @@ public class PrestamoVista extends Usuario {
 			
 			//crear el objeto prestamo
 			Prestamo prestamo = new Prestamo();
-			prestamo.setIdLibro(libro.getId());
-			prestamo.setIdUsuario(usuario.getId());
+			prestamo.setLibro(libro);
+			prestamo.setUsuario(usuario);
+			//prestamo.setIdLibro(libro.getId());
+			//prestamo.setIdUsuario(usuario.getId());
 			
 			Date fechaPrestamo = new Date();
 			
